@@ -5,7 +5,7 @@ var that = {};
 that.config = require('./config');
 that.currentIp = '127.0.0.1';
 
-that.run = function() {
+that.checkIp = function() {
   console.log('Getting IP');
   axios.get('https://api.ipify.org?format=json')
     .then(function(response) {
@@ -18,16 +18,16 @@ that.run = function() {
           console.log('IP is still '+that.currentIp);
         }
       }
-      that.rerun();
+      that.recheckIp();
     })
     .catch(function(error) {
       console.log('[ipify]', error);
-      that.rerun();
+      that.recheckIp();
     });
 };
 
-that.rerun = function() {
-  setTimeout(that.run, that.config.checkInterval);
+that.recheckIp = function() {
+  setTimeout(that.checkIp, that.config.checkInterval);
 };
 
 that.onIpDidChange = function() {
@@ -49,7 +49,7 @@ that.loadNotifiers = function() {
 
 that.start = function() {
   that.loadNotifiers();
-  that.run();
+  that.checkIp();
 };
 
 if (require.main === module) {
