@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
-    "nodemailer": "^4.0.1"
+    "nodemailer": "^4.0.1",
+    "twitter": "^1.7.1"
   }
 }

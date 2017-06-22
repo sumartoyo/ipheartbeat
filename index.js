@@ -1,5 +1,4 @@
 var axios = require('axios');
-var nodemailer = require('nodemailer');
 
 var that = {};
 
@@ -32,23 +31,24 @@ that.rerun = function() {
 };
 
 that.onIpDidChange = function() {
-  var transporter = nodemailer.createTransport(that.config.mail);
-  var mailOptions = {
-    from: that.config.mail.from,
-    to: that.config.mail.to,
-    subject: 'IP change of '+that.config.computerName,
-    text: that.currentIp,
-  };
-  console.log('Sending mail');
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log('[sendMail]', error);
+  that.notifiers.forEach(function(notifier) {
+    try {
+      notifier.notify(that.config, that.currentIp);
+    } catch (error) {
+      console.log(error);
     }
-    console.log('Mail sent', { messageId: info.messageId, response: info.response });
   });
 };
 
+that.loadNotifiers = function() {
+  that.notifiers = Object.keys(that.config.notifiers)
+    .map(function(notifierName) {
+      return require('./notifiers/'+notifierName);
+    });
+};
+
 if (require.main === module) {
+  that.loadNotifiers();
   that.run();
 }
 
