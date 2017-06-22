@@ -19,15 +19,17 @@ that.run = function() {
           console.log('IP is still '+that.currentIp);
         }
       }
-      that.rerun(that.run, that.config.checkInterval);
+      that.rerun();
     })
     .catch(function(error) {
       console.log('[ipify]', error);
-      that.rerun(that.run, that.config.checkInterval);
+      that.rerun();
     });
 };
 
-that.rerun = setTimeout;
+that.rerun = function() {
+  setTimeout(that.run, that.config.checkInterval);
+};
 
 that.onIpDidChange = function() {
   var transporter = nodemailer.createTransport(that.config.mail);
