@@ -47,9 +47,13 @@ that.loadNotifiers = function() {
     });
 };
 
-if (require.main === module) {
+that.start = function() {
   that.loadNotifiers();
   that.run();
+};
+
+if (require.main === module) {
+  that.start();
 }
 
 module.exports = that;

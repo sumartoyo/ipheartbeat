@@ -24,15 +24,14 @@ var ihb = require('./ipheartbeat');
 ihb.config = {
     ... // same format as config.js
 };
-ihb.loadNotifiers();
-ihb.run();
+ihb.start();
 ```
 
 ### Custom notifiers
 
 - Create notifier in `/notifiers/<your_notifier>.js`
 - Notifier module should export an object that has `notify(config, newIp)` function
-- Add notifier config in `config.notifiers.<your_notifier>` to include it when `loadNotifiers()`
+- Add notifier config in `config.notifiers.<your_notifier>` to include it
 
 ## License
 
